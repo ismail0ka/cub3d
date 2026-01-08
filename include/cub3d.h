@@ -3,8 +3,15 @@
 
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
-#define TILE_SIZE 64          // Standard size for map tiles
+#define TILE_SIZE 64
 #define NUM_TEXTURES 4
+#define KEY_W       13
+#define KEY_A       0
+#define KEY_S       1
+#define KEY_D       2
+#define KEY_LEFT    123
+#define KEY_RIGHT   124
+#define KEY_ESC     53
 
 # include <math.h>
 # include "mlx.h"
@@ -19,8 +26,8 @@ typedef struct s_map {
     char    *floor_color;    // Floor RGB color (parsed as string then converted)
     char    *ceiling_color;  // Ceiling RGB color (parsed as string then converted)
     int     is_valid;        // 1 if parsed correctly, 0 otherwise
-    int     map_height;      // Number of rows in the map
-    int     map_width;       // Longest row in the map
+    int     height;      // Number of rows in the map
+    int     width;       // Longest row in the map
     double  player_x;        // Starting player X pos
     double  player_y;        // Starting player Y pos
     double  player_angle;    // Starting angle/direction for the player
@@ -37,10 +44,10 @@ typedef struct s_player {
 
 // Game Engine (Main Aggregating Struct)
 typedef struct s_engine {
-    t_mlx        mlx;        // MiniLibX state
-    t_renderer   renderer;   // Rendering data
-    t_map        map;        // Map data
-    t_player     player;     // Player state
+    t_mlx        *mlx;        // MiniLibX state
+    t_renderer   *renderer;   // Rendering data
+    t_map        *map;        // Map data
+    t_player     *player;     // Player state
 } t_engine;
 
 //Window

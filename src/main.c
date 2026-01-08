@@ -54,15 +54,13 @@ void  init_window(t_mlx *mlx, int width, int height, char *title)
 }
 
 int main(int argc, char **argv) {
-  t_map map;
-  t_mlx mlx;
+  t_engine *engine;
 
-  if (argc == 2 && parse_map(&map, argv[1]))
+  if (argc == 2 && init_game(engine))
   {
     init_window(&mlx, WIN_WIDTH, WIN_HEIGHT, "Gangsta3D");
-    init_game(game);
-    mlx_loop();
-    //game_loop();
+    mlx_hook(engine->mlx, 2, 1L << 0, handle_input, &engine);
+    mlx_loop(engine->mlx->mlx);
   }
   else
     print_usage();
