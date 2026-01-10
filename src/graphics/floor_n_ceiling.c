@@ -12,6 +12,7 @@ void  draw_floor_n_ceiling(t_engine *engine)
   x = 0;
   while (y < engine->mlx->height)
   {
+    x = 0;
     if (y < half_y)
       color = engine->map->c_color;
     else

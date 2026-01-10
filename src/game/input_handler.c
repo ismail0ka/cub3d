@@ -4,15 +4,15 @@ int handle_input(int keycode, t_engine *engine)
 {
   t_player *player;
 
-  player = &engine->player;
+  player = engine->player;
   if (keycode == KEY_W)
-      move_forward(player, engine->map.layout);
+      move_forward(player, engine->map->layout);
   else if (keycode == KEY_S)
-      move_backward(player, engine->map.layout);
+      move_backward(player, engine->map->layout);
   else if (keycode == KEY_A)
-      strafe_left(player, engine->map.layout);
+      strafe_left(player, engine->map->layout);
   else if (keycode == KEY_D)
-      strafe_right(player, engine->map.layout);
+      strafe_right(player, engine->map->layout);
   else if (keycode == KEY_LEFT)
       rotate_left(player);
   else if (keycode == KEY_RIGHT)
