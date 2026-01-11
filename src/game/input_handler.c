@@ -5,6 +5,8 @@ int handle_input(int keycode, t_engine *engine)
   t_player *player;
 
   player = engine->player;
+  if (keycode == KEY_ESC)
+      exit_game(engine);
   if (keycode == KEY_W)
       move_forward(player, engine->map->layout);
   else if (keycode == KEY_S)
@@ -17,8 +19,6 @@ int handle_input(int keycode, t_engine *engine)
       rotate_left(player);
   else if (keycode == KEY_RIGHT)
       rotate_right(player);
-  else if (keycode == KEY_ESC)
-      exit_game(engine);
   render_frame(engine);
   return 0;
 }
