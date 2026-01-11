@@ -192,14 +192,35 @@ void  render_frame(t_engine *engine)
 	int               draw_start;
 	int               draw_end;
 	double            dist;
+	static int frame_count = 0;
 
 	if (!engine || !engine->mlx || !engine->renderer)
 		return;
+	
+	if (frame_count == 0)
+	{
+		printf("\n=== First Frame Render ===\n");
+		printf("Player pos: (%.2f, %.2f)\n", engine->player->pos.x, engine->player->pos.y);
+		printf("Player dir: (%.2f, %.2f)\n", engine->player->direction.x, engine->player->direction.y);
+		printf("Map dimensions: %dx%d\n", engine->map->width, engine->map->height);
+		printf("Checking map at player position [%d][%d] = '%c'\n", 
+		       (int)engine->player->pos.y, (int)engine->player->pos.x,
+		       engine->map->layout[(int)engine->player->pos.y][(int)engine->player->pos.x]);
+	}
+	frame_count++;
+	
 	draw_floor_n_ceiling(engine);
 	x = 0;
 	while (x < engine->mlx->width)
 	{
 		ray = cast_ray(engine, x);
+		
+		if (frame_count == 1 && x == engine->mlx->width / 2)
+		{
+			printf("Center ray (x=%d): distance=%.2f, tex_id=%d, side=%d\n", 
+			       x, ray.distance, ray.tex_id, ray.side);
+		}
+		
 		dist = (ray.distance <= 0.0001) ? 0.0001 : ray.distance;
 		engine->renderer->z_buffer[x] = dist;
 		line_height = (int)(engine->mlx->height / dist);
