@@ -20,41 +20,53 @@ void init_player(t_player *player, const t_map *map)
 void move_forward(t_player *player, char **map) {
     double new_x = player->pos.x + player->direction.x * player->move_speed;
     double new_y = player->pos.y + player->direction.y * player->move_speed;
+    int mx = (int)new_x;
+    int my = (int)new_y;
 
-    if (map[(int)new_y] && map[(int)new_y][(int)player->pos.x] != '1')
-        player->pos.y = new_y;
-    if (map[(int)player->pos.y] && map[(int)player->pos.y][(int)new_x] != '1')
+    if (map && map[my] && map[my][mx] && map[my][mx] != '1')
+    {
         player->pos.x = new_x;
+        player->pos.y = new_y;
+    }
 }
 
 void move_backward(t_player *player, char **layout) {
     double next_x = player->pos.x - player->direction.x * player->move_speed;
     double next_y = player->pos.y - player->direction.y * player->move_speed;
+    int mx = (int)next_x;
+    int my = (int)next_y;
 
-    if (layout[(int)next_y] && layout[(int)next_y][(int)player->pos.x] != '1')
-        player->pos.y = next_y;
-    if (layout[(int)player->pos.y] && layout[(int)player->pos.y][(int)next_x] != '1')
+    if (layout && layout[my] && layout[my][mx] && layout[my][mx] != '1')
+    {
         player->pos.x = next_x;
+        player->pos.y = next_y;
+    }
 }
 
 void strafe_left(t_player *player, char **layout) {
     double next_x = player->pos.x - player->plane.x * player->move_speed;
     double next_y = player->pos.y - player->plane.y * player->move_speed;
+    int mx = (int)next_x;
+    int my = (int)next_y;
 
-    if (layout[(int)next_y] && layout[(int)next_y][(int)player->pos.x] != '1')
-        player->pos.y = next_y;
-    if (layout[(int)player->pos.y] && layout[(int)player->pos.y][(int)next_x] != '1')
+    if (layout && layout[my] && layout[my][mx] && layout[my][mx] != '1')
+    {
         player->pos.x = next_x;
+        player->pos.y = next_y;
+    }
 }
 
 void strafe_right(t_player *player, char **layout) {
     double next_x = player->pos.x + player->plane.x * player->move_speed;
     double next_y = player->pos.y + player->plane.y * player->move_speed;
+    int mx = (int)next_x;
+    int my = (int)next_y;
 
-    if (layout[(int)next_y] && layout[(int)next_y][(int)player->pos.x] != '1')
-        player->pos.y = next_y;
-    if (layout[(int)player->pos.y] && layout[(int)player->pos.y][(int)next_x] != '1')
+    if (layout && layout[my] && layout[my][mx] && layout[my][mx] != '1')
+    {
         player->pos.x = next_x;
+        player->pos.y = next_y;
+    }
 }
 
 void rotate_right(t_player *player) {
