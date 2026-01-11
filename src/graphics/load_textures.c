@@ -5,9 +5,15 @@ static void load_texture(t_mlx *mlx, t_texture *texture, char *path)
 {
 	if (!path || !mlx || !texture)
 		return;
+	printf("Loading texture: %s\n", path);
 	texture->img = mlx_xpm_file_to_image(mlx->mlx, path, &texture->width, &texture->height);
 	if (texture->img)
+	{
 		texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->line_len, &texture->endian);
+		printf("  Success! Size: %dx%d\n", texture->width, texture->height);
+	}
+	else
+		printf("  Failed to load texture!\n");
 }
 
 void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
