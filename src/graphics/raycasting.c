@@ -92,7 +92,7 @@ t_raycast_result cast_ray(t_engine *engine, int screen_x)
 	}
 	if (!hit)
 	{
-		res.distance = 1e6; /* treat as very far to avoid div-by-zero */
+		res.distance = 1e6;
 		return res;
 	}
 	if (side == 0)

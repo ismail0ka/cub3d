@@ -15,7 +15,7 @@ void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
 		i++;
 	}
 	i = 0;
-	while (i < MAX_WIDTH)
+	while (i < WIN_WIDTH)
 	{
 		renderer->z_buffer[i] = 0.0;
 		i++;

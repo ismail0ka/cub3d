@@ -46,7 +46,7 @@ void  cleanup_engine(t_engine *engine)
 void  exit_with_error(const char *error_message, t_engine *engine)
 {
 	if (error_message)
-		fprintf(stderr, "Error: %s\n", error_message);
+		printf("Error: %s\n", error_message);
 	cleanup_engine(engine);
 	exit(EXIT_FAILURE);
 }

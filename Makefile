@@ -1,10 +1,10 @@
 NAME=cub3d
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -Iinclude -Isrc/parsing
+CFLAGS=-Wall -Wextra -Werror -Iinclude -g3
 MLX_LIB=-lmlx -lXext -lX11 -lm
+LIBFT=libft.a
 
-SRCS := \
-	src/main.c \
+SRCS= src/main.c \
 	src/parse_map.c \
 	src/game/input_handler.c \
 	src/game/player.c \
@@ -24,15 +24,20 @@ SRCS := \
 	src/parsing/separate_elements_colors.c \
 	src/parsing/separate_elements_map.c \
 	src/parsing/separate_elements_textures.c \
-	src/parsing/sparate_elements.c \
-	src/parsing/temp_libft.c
+	src/parsing/sparate_elements.c
 
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) -o $(NAME)
+$(LIBFT):
+	$(MAKE) -C lib/libft
+
+$(MLX):
+	$(MAKE) -C lib/minilibx-linux
+
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJS) lib/libft/$(LIBFT) $(MLX_LIB) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

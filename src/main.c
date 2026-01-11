@@ -15,7 +15,7 @@ static int  loop_frame(void *param)
   return 0;
 }
 
-void  init_window(t_mlx *mlx, int width, int height, const char *title)
+void  init_window(t_mlx *mlx, int width, int height, char *title)
 {
   mlx->mlx = mlx_init();
   if (!mlx->mlx)
@@ -31,14 +31,13 @@ int main(int argc, char **argv)
 {
   t_engine  engine;
 
-  memset(&engine, 0, sizeof(engine));
-  engine.mlx = calloc(1, sizeof(t_mlx));
-  engine.renderer = calloc(1, sizeof(t_renderer));
-  engine.map = calloc(1, sizeof(t_map));
-  engine.player = calloc(1, sizeof(t_player));
+  ft_memset(&engine, 0, sizeof(engine));
+  engine.mlx = ft_calloc(1, sizeof(t_mlx));
+  engine.renderer = ft_calloc(1, sizeof(t_renderer));
+  engine.map = ft_calloc(1, sizeof(t_map));
+  engine.player = ft_calloc(1, sizeof(t_player));
   if (!engine.mlx || !engine.renderer || !engine.map || !engine.player)
     exit_with_error("Memory allocation failed", &engine);
-
   if (argc != 2)
   {
     print_usage();
@@ -53,7 +52,7 @@ int main(int argc, char **argv)
   init_renderer(engine.renderer, engine.mlx, engine.map);
 
   mlx_hook(engine.mlx->win, 2, 1L << 0, handle_input, &engine);
-  mlx_hook(engine.mlx->win, 17, 0, (int (*)(void *))exit_game, &engine);
+  mlx_hook(engine.mlx->win, 17, 0, exit_game, &engine);
   mlx_loop_hook(engine.mlx->mlx, loop_frame, &engine);
   mlx_loop(engine.mlx->mlx);
 

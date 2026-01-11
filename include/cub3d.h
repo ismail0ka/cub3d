@@ -8,12 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mlx.h"
+#include "../lib/libft/libft.h"
 
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 480
 #define TILE_SIZE 64
 #define NUM_TEXTURES 4
-#define MAX_WIDTH WIN_WIDTH
 
 #define KEY_W       13
 #define KEY_A       0
@@ -48,7 +48,7 @@ typedef struct s_texture {
 
 typedef struct s_renderer {
   t_texture textures[NUM_TEXTURES];
-  double    z_buffer[MAX_WIDTH];
+  double    z_buffer[WIN_WIDTH];
 } t_renderer;
 
 // Map Representation
@@ -98,7 +98,7 @@ typedef struct s_raycast_result {
 bool  parse_map(const char *file_path, t_map *map);
 
 // Initialization
-void  init_window(t_mlx *mlx, int width, int height, const char *title);
+void  init_window(t_mlx *mlx, int width, int height, char *title);
 void  init_player(t_player *player, const t_map *map);
 void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map);
 
@@ -108,7 +108,7 @@ void  render_frame(t_engine *engine);  // Main rendering function
 
 // Input Handling
 int   handle_input(int keycode, t_engine *engine);
-void  exit_game(t_engine *engine);
+int   exit_game(t_engine *engine);
 void  move_forward(t_player *player, char **map);
 void  move_backward(t_player *player, char **layout);
 void  strafe_left(t_player *player, char **layout);

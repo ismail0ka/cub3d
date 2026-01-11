@@ -22,7 +22,8 @@ int handle_input(int keycode, t_engine *engine)
   return 0;
 }
 
-void exit_game(t_engine *engine) {
+int exit_game(t_engine *engine) {
     cleanup_engine(engine);
     exit(0);
+    return (0);
 }
