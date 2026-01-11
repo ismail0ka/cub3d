@@ -1,6 +1,6 @@
 NAME=cub3d
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -Iinclude
+CFLAGS=-Wall -Wextra -Werror -Iinclude -Isrc/parsing
 MLX_LIB=-lmlx -lXext -lX11 -lm
 
 SRCS := \
@@ -13,7 +13,19 @@ SRCS := \
 	src/graphics/raycasting.c \
 	src/graphics/render_map.c \
 	src/utils/color.c \
-	src/utils/errors.c
+	src/utils/errors.c \
+	src/parsing/check_map.c \
+	src/parsing/helper_utils.c \
+	src/parsing/line_utils.c \
+	src/parsing/map_cleanup.c \
+	src/parsing/param_utils.c \
+	src/parsing/parce_args.c \
+	src/parsing/read_file.c \
+	src/parsing/separate_elements_colors.c \
+	src/parsing/separate_elements_map.c \
+	src/parsing/separate_elements_textures.c \
+	src/parsing/sparate_elements.c \
+	src/parsing/temp_libft.c
 
 OBJS := $(SRCS:.c=.o)
 

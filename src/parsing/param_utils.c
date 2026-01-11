@@ -12,7 +12,6 @@ t_params	*params_holder(void)
 void	separate_init(t_params **params, t_raydata *ray, t_playerdata *player)
 {
 	(*params)->player = player;
-	(*params)->mlx = NULL;
 	(*params)->player->pixel_y = -1;
 	(*params)->player->pixel_x = -1;
 	(*params)->player->cell_y = -1;
@@ -43,10 +42,7 @@ void	params_init(t_params **params, t_raydata *ray, t_playerdata *player)
 	}
 	index = -1;
 	while (++index < 4)
-	{
-		(*params)->tex_info[index].img = NULL;
-		(*params)->tex_info[index].addr = NULL;
-	}
+		;
 	separate_init(params, ray, player);
 }
 
@@ -60,17 +56,5 @@ void	free_params(t_params **params)
 	index = -1;
 	if ((*params)->map)
 		free_array(&(*params)->map);
-	if ((*params)->mlx)
-	{
-		/*
-		while (++index < 4 && (*params)->tex_info[index].img)
-			mlx_destroy_image((*params)->mlx->mlx_ptr,
-				(*params)->tex_info[index].img);
-		mlx_destroy_image((*params)->mlx->mlx_ptr, (*params)->img->img_ptr);
-		mlx_destroy_window((*params)->mlx->mlx_ptr, (*params)->mlx->win_ptr);
-		mlx_destroy_display((*params)->mlx->mlx_ptr);
-		free((*params)->mlx->mlx_ptr);
-		*/
-	}
 	free (*params);
 }

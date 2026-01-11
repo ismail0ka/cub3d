@@ -56,32 +56,6 @@ typedef struct s_raydata
 	double	ray_length;
 }	t_raydata;
 
-typedef struct s_mlx
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-}	t_mlx;
-
-typedef struct s_img
-{
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_img;
-
-typedef struct s_tex_info
-{
-	void	*img;
-	char	*addr;
-	int		width;
-	int		height;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_tex_info;
-
 typedef struct s_params
 {
 	char			**map;
@@ -90,9 +64,6 @@ typedef struct s_params
 	int				ceiling_color[3];
 	t_playerdata	*player;
 	t_raydata		*ray;
-	t_mlx			*mlx;
-	t_img			*img;
-	t_tex_info		tex_info[4];
 	int				player_move;
 }	t_params;
 
