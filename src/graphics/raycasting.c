@@ -2,21 +2,57 @@
 #include <stddef.h>
 #include "cub3d.h"
 
-static void draw_vertical_line(t_engine *engine, int x, int start, int end, int color)
+static void put_pixel_to_image(t_renderer *renderer, int x, int y, int color)
 {
-	int y;
+	char *dst;
+	int offset;
 
-	if (!engine || !engine->mlx)
+	if (!renderer || !renderer->addr || x < 0 || y < 0)
 		return;
-	if (start < 0)
-		start = 0;
-	if (end >= engine->mlx->height)
-		end = engine->mlx->height - 1;
-	y = start;
-	while (y <= end)
+	offset = y * renderer->line_len + x * (renderer->bpp / 8);
+	dst = renderer->addr + offset;
+	*(unsigned int*)dst = color;
+}
+
+static int get_texture_pixel(t_texture *tex, int x, int y)
+{
+	char *dst;
+	int offset;
+
+	if (!tex || !tex->addr || x < 0 || y < 0 || x >= tex->width || y >= tex->height)
+		return 0;
+	offset = y * tex->line_len + x * (tex->bpp / 8);
+	dst = tex->addr + offset;
+	return *(unsigned int*)dst;
+}
+
+static void calculate_wall_x(t_raycast_result *res, t_engine *engine, double ray_dir_x, double ray_dir_y)
+{
+	double wall_x;
+
+	if (res->side == 0)
+		wall_x = engine->player->pos.y + res->distance * ray_dir_y;
+	else
+		wall_x = engine->player->pos.x + res->distance * ray_dir_x;
+	wall_x -= floor(wall_x);
+	res->tex_x = wall_x;
+}
+
+static void determine_texture_id(t_raycast_result *res, int step_x, int step_y)
+{
+	if (res->side == 0)
 	{
-		mlx_pixel_put(engine->mlx->mlx, engine->mlx->win, x, y, color);
-		y++;
+		if (step_x > 0)
+			res->tex_id = 3;
+		else
+			res->tex_id = 2;
+	}
+	else
+	{
+		if (step_y > 0)
+			res->tex_id = 1;
+		else
+			res->tex_id = 0;
 	}
 }
 
@@ -100,10 +136,52 @@ t_raycast_result cast_ray(t_engine *engine, int screen_x)
 	else
 		res.distance = side_dist_y - delta_dist_y;
 	res.side = side;
-	/* Minimal texture coordinate placeholder */
-	res.tex_x = 0.0;
-	res.tex_id = 0;
+	calculate_wall_x(&res, engine, ray_dir_x, ray_dir_y);
+	determine_texture_id(&res, step_x, step_y);
 	return res;
+}
+
+static void draw_textured_wall(t_engine *engine, int x, int draw_start, int draw_end, t_raycast_result ray)
+{
+	t_texture *texture;
+	int tex_x;
+	int tex_y;
+	double step;
+	double tex_pos;
+	int y;
+	int color;
+
+	if (ray.tex_id < 0 || ray.tex_id >= NUM_TEXTURES)
+		return;
+	texture = &engine->renderer->textures[ray.tex_id];
+	if (!texture->img || !texture->addr)
+	{
+		y = draw_start;
+		while (y <= draw_end)
+		{
+			put_pixel_to_image(engine->renderer, x, y, (ray.side) ? 0x808080 : 0xFFFFFF);
+			y++;
+		}
+		return;
+	}
+	tex_x = (int)(ray.tex_x * (double)texture->width);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= texture->width)
+		tex_x = texture->width - 1;
+	step = 1.0 * texture->height / (draw_end - draw_start);
+	tex_pos = (draw_start - engine->mlx->height / 2 + (draw_end - draw_start) / 2) * step;
+	y = draw_start;
+	while (y <= draw_end)
+	{
+		tex_y = (int)tex_pos & (texture->height - 1);
+		tex_pos += step;
+		color = get_texture_pixel(texture, tex_x, tex_y);
+		if (ray.side == 1)
+			color = (color >> 1) & 0x7F7F7F;
+		put_pixel_to_image(engine->renderer, x, y, color);
+		y++;
+	}
 }
 
 void  render_frame(t_engine *engine)
@@ -114,9 +192,8 @@ void  render_frame(t_engine *engine)
 	int               draw_start;
 	int               draw_end;
 	double            dist;
-	int               color;
 
-	if (!engine || !engine->mlx)
+	if (!engine || !engine->mlx || !engine->renderer)
 		return;
 	draw_floor_n_ceiling(engine);
 	x = 0;
@@ -128,8 +205,12 @@ void  render_frame(t_engine *engine)
 		line_height = (int)(engine->mlx->height / dist);
 		draw_start = -line_height / 2 + engine->mlx->height / 2;
 		draw_end = line_height / 2 + engine->mlx->height / 2;
-		color = (ray.side) ? 0xAAAAAA : 0xFFFFFF;
-		draw_vertical_line(engine, x, draw_start, draw_end, color);
+		if (draw_start < 0)
+			draw_start = 0;
+		if (draw_end >= engine->mlx->height)
+			draw_end = engine->mlx->height - 1;
+		draw_textured_wall(engine, x, draw_start, draw_end, ray);
 		x++;
 	}
+	mlx_put_image_to_window(engine->mlx->mlx, engine->mlx->win, engine->renderer->img, 0, 0);
 }

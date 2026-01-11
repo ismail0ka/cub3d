@@ -9,12 +9,6 @@ static void print_usage(void)
   printf("  - ESC: Exit the program\n");
 }
 
-static int  loop_frame(void *param)
-{
-  render_frame((t_engine *)param);
-  return 0;
-}
-
 void  init_window(t_mlx *mlx, int width, int height, char *title)
 {
   mlx->mlx = mlx_init();
@@ -51,9 +45,9 @@ int main(int argc, char **argv)
   init_player(engine.player, engine.map);
   init_renderer(engine.renderer, engine.mlx, engine.map);
 
+  render_frame(&engine);
   mlx_hook(engine.mlx->win, 2, 1L << 0, handle_input, &engine);
   mlx_hook(engine.mlx->win, 17, 0, exit_game, &engine);
-  mlx_loop_hook(engine.mlx->mlx, loop_frame, &engine);
   mlx_loop(engine.mlx->mlx);
 
   cleanup_engine(&engine);

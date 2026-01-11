@@ -19,6 +19,7 @@ int handle_input(int keycode, t_engine *engine)
       rotate_right(player);
   else if (keycode == KEY_ESC)
       exit_game(engine);
+  render_frame(engine);
   return 0;
 }
 

@@ -1,5 +1,17 @@
 #include "cub3d.h"
 
+static void put_pixel_to_image(t_renderer *renderer, int x, int y, int color)
+{
+	char *dst;
+	int offset;
+
+	if (!renderer || !renderer->addr)
+		return;
+	offset = y * renderer->line_len + x * (renderer->bpp / 8);
+	dst = renderer->addr + offset;
+	*(unsigned int*)dst = color;
+}
+
 void  draw_floor_n_ceiling(t_engine *engine)
 {
   int half_y;
@@ -19,7 +31,7 @@ void  draw_floor_n_ceiling(t_engine *engine)
       color = engine->map->f_color;
     while (x < engine->mlx->width)
     {
-      mlx_pixel_put(engine->mlx->mlx, engine->mlx->win, x, y, color);
+      put_pixel_to_image(engine->renderer, x, y, color);
       x++;
     }
     y++;

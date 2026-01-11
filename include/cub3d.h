@@ -49,6 +49,11 @@ typedef struct s_texture {
 typedef struct s_renderer {
   t_texture textures[NUM_TEXTURES];
   double    z_buffer[WIN_WIDTH];
+  void      *img;
+  char      *addr;
+  int       bpp;
+  int       line_len;
+  int       endian;
 } t_renderer;
 
 // Map Representation
