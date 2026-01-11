@@ -5,7 +5,6 @@ static void load_texture(t_mlx *mlx, t_texture *texture, char *path)
 {
 	if (!path || !mlx || !texture)
 		return;
-	printf("Loading texture: %s\n", path);
 	texture->img = mlx_xpm_file_to_image(mlx->mlx, path, &texture->width, &texture->height);
 	if (texture->img)
 	{

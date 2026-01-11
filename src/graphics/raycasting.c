@@ -196,17 +196,6 @@ void  render_frame(t_engine *engine)
 
 	if (!engine || !engine->mlx || !engine->renderer)
 		return;
-	
-	if (frame_count == 0)
-	{
-		printf("\n=== First Frame Render ===\n");
-		printf("Player pos: (%.2f, %.2f)\n", engine->player->pos.x, engine->player->pos.y);
-		printf("Player dir: (%.2f, %.2f)\n", engine->player->direction.x, engine->player->direction.y);
-		printf("Map dimensions: %dx%d\n", engine->map->width, engine->map->height);
-		printf("Checking map at player position [%d][%d] = '%c'\n", 
-		       (int)engine->player->pos.y, (int)engine->player->pos.x,
-		       engine->map->layout[(int)engine->player->pos.y][(int)engine->player->pos.x]);
-	}
 	frame_count++;
 	
 	draw_floor_n_ceiling(engine);

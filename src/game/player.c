@@ -15,8 +15,6 @@ void init_player(t_player *player, const t_map *map)
     player->plane.y = player->direction.x * 0.66;
     player->move_speed = 0.1;
     player->rot_speed = 0.05;
-    printf("Player initialized at (%.2f, %.2f) angle=%.2f dir=(%.2f, %.2f)\n", 
-           player->pos.x, player->pos.y, angle, player->direction.x, player->direction.y);
 }
 
 void move_forward(t_player *player, char **map) {

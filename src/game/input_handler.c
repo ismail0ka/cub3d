@@ -4,7 +4,6 @@ int handle_input(int keycode, t_engine *engine)
 {
   t_player *player;
 
-  printf("Key pressed: %d\n", keycode);
   player = engine->player;
   if (keycode == KEY_ESC)
       exit_game(engine);

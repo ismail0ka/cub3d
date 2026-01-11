@@ -41,17 +41,6 @@ int main(int argc, char **argv)
   if (!parse_map(argv[1], engine.map))
     exit_with_error("Failed to parse map", &engine);
 
-  printf("=== Map Info ===\n");
-  printf("Map size: %dx%d\n", engine.map->width, engine.map->height);
-  printf("Player position: (%.2f, %.2f)\n", engine.map->player_x, engine.map->player_y);
-  printf("Player angle: %.2f\n", engine.map->player_angle);
-  printf("Map layout:\n");
-  for (int i = 0; i < engine.map->height && i < 15; i++)
-  {
-    printf("%s\n", engine.map->layout[i]);
-  }
-  printf("================\n");
-
   init_window(engine.mlx, WIN_WIDTH, WIN_HEIGHT, "Gangsta3D");
   init_player(engine.player, engine.map);
   init_renderer(engine.renderer, engine.mlx, engine.map);
