@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/14 19:25:42 by ikarouat          #+#    #+#             */
+/*   Updated: 2026/01/14 19:25:43 by ikarouat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <math.h>
 #include <stddef.h>
 #include "cub3d.h"
@@ -192,24 +204,15 @@ void  render_frame(t_engine *engine)
 	int               draw_start;
 	int               draw_end;
 	double            dist;
-	static int frame_count = 0;
 
 	if (!engine || !engine->mlx || !engine->renderer)
 		return;
-	frame_count++;
 	
 	draw_floor_n_ceiling(engine);
 	x = 0;
 	while (x < engine->mlx->width)
 	{
 		ray = cast_ray(engine, x);
-		
-		if (frame_count == 1 && x == engine->mlx->width / 2)
-		{
-			printf("Center ray (x=%d): distance=%.2f, tex_id=%d, side=%d\n", 
-			       x, ray.distance, ray.tex_id, ray.side);
-		}
-		
 		dist = (ray.distance <= 0.0001) ? 0.0001 : ray.distance;
 		engine->renderer->z_buffer[x] = dist;
 		line_height = (int)(engine->mlx->height / dist);

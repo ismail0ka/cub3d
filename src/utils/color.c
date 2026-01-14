@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/14 19:25:57 by ikarouat          #+#    #+#             */
+/*   Updated: 2026/01/14 19:25:58 by ikarouat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -11,7 +23,7 @@ static int  parse_component(const char **cursor)
 
 	if (!cursor || !*cursor)
 		return -1;
-	value = strtol(*cursor, &end, 10);
+	value = strtol(*cursor, &end, 10);//Forbidden func
 	if (end == *cursor || value < 0 || value > 255)
 		return -1;
 	*cursor = end;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   load_textures.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/14 19:25:33 by ikarouat          #+#    #+#             */
+/*   Updated: 2026/01/14 19:25:34 by ikarouat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "cub3d.h"
 
@@ -7,12 +19,7 @@ static void load_texture(t_mlx *mlx, t_texture *texture, char *path)
 		return;
 	texture->img = mlx_xpm_file_to_image(mlx->mlx, path, &texture->width, &texture->height);
 	if (texture->img)
-	{
 		texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->line_len, &texture->endian);
-		printf("  Success! Size: %dx%d\n", texture->width, texture->height);
-	}
-	else
-		printf("  Failed to load texture!\n");
 }
 
 void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
@@ -24,7 +31,7 @@ void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
 	i = 0;
 	while (i < NUM_TEXTURES)
 	{
-		memset(&renderer->textures[i], 0, sizeof(renderer->textures[i]));
+		ft_memset(&renderer->textures[i], 0, sizeof(renderer->textures[i]));
 		i++;
 	}
 	load_texture(mlx, &renderer->textures[0], map->no_texture);

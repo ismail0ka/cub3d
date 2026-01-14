@@ -2,12 +2,15 @@ NAME=cub3d
 CC=cc
 CFLAGS=-Wall -Wextra -Werror -Iinclude -g3
 MLX_LIB=-lmlx -lXext -lX11 -lm
-LIBFT=libft.a
+LIBFT_DIR=lib/libft
+LIBFT=$(LIBFT_DIR)/libft.a
 
 SRCS= src/main.c \
 	src/parse_map.c \
 	src/game/input_handler.c \
-	src/game/player.c \
+	src/game/player_mov.c \
+	src/game/player_rot.c \
+	src/game/player_init.c \
 	src/graphics/floor_n_ceiling.c \
 	src/graphics/load_textures.c \
 	src/graphics/raycasting.c \
@@ -31,22 +34,21 @@ OBJS := $(SRCS:.c=.o)
 all: $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C lib/libft
-
-$(MLX):
-	$(MAKE) -C lib/minilibx-linux
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) lib/libft/$(LIBFT) $(MLX_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(LIBFT)
 
 re: fclean all
 

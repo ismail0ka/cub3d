@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/14 19:26:01 by ikarouat          #+#    #+#             */
+/*   Updated: 2026/01/14 19:26:02 by ikarouat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "cub3d.h"
@@ -32,8 +44,6 @@ void  cleanup_engine(t_engine *engine)
 		free(engine->map->so_texture);
 		free(engine->map->we_texture);
 		free(engine->map->ea_texture);
-		free(engine->map->floor_color);
-		free(engine->map->ceiling_color);
 		free_2d_array(engine->map->layout);
 		free(engine->map);
 	}
