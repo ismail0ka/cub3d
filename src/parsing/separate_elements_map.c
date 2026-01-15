@@ -34,7 +34,7 @@ static int	split_map(t_lines *file_content, size_t len)
 
 static int	is_map_char(char c)
 {
-	if (c == '0' || c == '1' || c == ' ' || c == '\n'
+	if (c == '0' || c == '1' || c == '\n'
 		|| c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
 	return (0);
@@ -50,13 +50,26 @@ static int	validate_trailing_lines(t_lines *file_content)
 	}
 	return (0);
 }
-
-static int	count_map_lines(t_lines *file_content, size_t *len)
+int chcker(char *str)
 {
+	int i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	while (str[i] &&  str[i] != '\n')
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+		return (0);
+		i++;
+	}
+	return (1);
+}
+	static int	count_map_lines(t_lines *file_content, size_t *len)
+{
+	// printf("%s\n", file_content->line);
 	while (file_content && file_content->line
 		&& is_map_char(file_content->line[0]))
 	{
-		if (file_content->line[0] != '\n')
+		if (!chcker(file_content->line))
 			(*len)++;
 		else
 		{

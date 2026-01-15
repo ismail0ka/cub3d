@@ -25,6 +25,7 @@ SRCS= src/main.c \
 	src/utils/color.c \
 	src/utils/errors.c \
 	src/parsing/check_map.c \
+	src/parsing/check_map2.c \
 	src/parsing/helper_utils.c \
 	src/parsing/line_utils.c \
 	src/parsing/map_cleanup.c \
@@ -34,6 +35,7 @@ SRCS= src/main.c \
 	src/parsing/separate_elements_colors.c \
 	src/parsing/separate_elements_map.c \
 	src/parsing/separate_elements_textures.c \
+	src/parsing/separate_elements_textures2.c \
 	src/parsing/separate_elements.c
 
 OBJS= $(SRCS:.c=.o)

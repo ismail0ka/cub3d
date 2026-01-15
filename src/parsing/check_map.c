@@ -14,39 +14,6 @@
 
 static char	**copy_and_replace(void);
 
-int	check_map_elements(t_params	*params)
-{
-	int			i;
-	int			j;
-
-	i = -1;
-	while (params->map[++i])
-	{
-		j = -1;
-		while (params->map[i][++j])
-		{
-			if (params->map[i][j] == 'S' || params->map[i][j] == 'N'
-				|| params->map[i][j] == 'E' || params->map[i][j] == 'W')
-			{
-				if (params->player->cell_x != -1
-					|| params->player->cell_y != -1)
-					return (ft_putstr_fd("Error: Multiple players in map\n", 2)
-						, -1);
-				params->player->cell_y = i;
-				params->player->cell_x = j;
-				params->player->direction = params->map[i][j];
-				continue ;
-			}
-			if (params->map[i][j] != '0' && params->map[i][j] != '1'
-				&& params->map[i][j] != ' ' && params->map[i][j] != '\n'
-				&& params->map[i][j] != 'N' && params->map[i][j] != 'S'
-				&& params->map[i][j] != 'E' && params->map[i][j] != 'W')
-				return (-1);
-		}
-	}
-	return (0);
-}
-
 static int	check_is_map_open(char **map)
 {
 	int	i;
@@ -63,9 +30,7 @@ static int	check_is_map_open(char **map)
 			|| map[i][j] == 'W')
 			&& (i == 0 || j == 0
 			|| !map[i + 1] || !map[i][j + 1]
-			|| map[i][j + 1] == ' ' || map[i][j - 1] == ' '
 			|| map[i][j + 1] == '?' || map[i][j - 1] == '?'
-			|| map[i + 1][j] == ' ' || map[i - 1][j] == ' '
 			|| map[i + 1][j] == '?' || map[i - 1][j] == '?'))
 				return (ft_putstr_fd("Error: Map is not surrounded by walls\n"
 						, 2), -1);
@@ -73,7 +38,6 @@ static int	check_is_map_open(char **map)
 	}
 	return (0);
 }
-
 int	is_map_surrounded(void)
 {
 	char		**map;
@@ -94,32 +58,13 @@ int	is_map_surrounded(void)
 static char	*replace_space(char *str, int longest)
 {
 	char	*ret;
-	int		index;
 	int		last_char;
-	int		i;
 
 	ret = malloc(sizeof(char) * longest + 1);
 	if (!ret)
 		return (NULL);
-	last_char = -1;
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		if (str[i] != ' ')
-			last_char = i;
-		i++;
-	}
-	index = -1;
-	while (++index < longest)
-	{
-		if (index < i)
-			ret[index] = str[index];
-		else if (index <= last_char)
-			ret[index] = '1';
-		else
-			ret[index] = '?';
-	}
-	ret[index] = '\0';
+	last_char = find_last_char(str);
+	fill_padded_string(ret, str, longest, last_char);
 	return (ret);
 }
 
@@ -129,14 +74,18 @@ static char	**copy_and_replace(void)
 	int			index;
 	int			longest;
 	char		**ret;
+	int			len;
 
 	index = -1;
 	longest = 0;
 	param = params_holder();
 	while (param->map[++index])
 	{
-		if ((size_t)longest < ft_strlen(param->map[index]))
-			longest = ft_strlen(param->map[index]);
+		len = ft_strlen(param->map[index]);
+		if (param->map[index][len - 1] == '\n')
+			len--;
+		if (longest < len)
+			longest = len;
 	}
 	ret = malloc((index + 1) * sizeof(char *));
 	if (!ret)

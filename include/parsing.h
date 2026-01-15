@@ -86,6 +86,8 @@ typedef struct s_params
 /* check_map.c */
 int			check_map_elements(t_params *params);
 int			is_map_surrounded(void);
+int			find_last_char(char *str);
+void		fill_padded_string(char *ret, char *str, int longest, int last_char);
 
 /* map_cleanup.c */
 int			replace_spaces_with_walls(void);
@@ -123,6 +125,10 @@ int			add_map(t_lines *file_content_i);
 
 /* separate_elements_textures.c */
 int			add_tex(t_lines *file_content);
+char		*trim_texture_path(char *path);
+
+/* separate_elements_textures2.c */
+int			split_tex(char *type, char *path);
 
 /* sparate_elements.c */
 int			separate_elements(t_lines *file_content);
