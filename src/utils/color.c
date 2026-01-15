@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:25:57 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/14 19:25:58 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/14 20:25:46 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,68 @@
 #include <string.h>
 #include "cub3d.h"
 
-static int  parse_component(const char **cursor)
+static int	parse_component(const char **cursor)
 {
-	char    *end;
-	long     value;
+	char	*end;
+	long	value;
 
 	if (!cursor || !*cursor)
-		return -1;
-	value = strtol(*cursor, &end, 10);//Forbidden func
+		return (-1);
+	value = strtol(*cursor, &end, 10);//Forbidden function REMOVE
 	if (end == *cursor || value < 0 || value > 255)
-		return -1;
+		return (-1);
 	*cursor = end;
-	return (int)value;
+	return ((int)value);
 }
 
-int rgb_to_hex(const char *rgb_str)
+static int	validate_component(int component, char delimiter, char actual)
 {
-	const char  *p;
-	int          r;
-	int          g;
-	int          b;
+	if (component < 0)
+		return (-1);
+	if (actual != delimiter)
+		return (-1);
+	return (0);
+}
+
+static int	validate_end(int component, char c)
+{
+	if (component < 0)
+		return (-1);
+	if (c != '\0' && !isspace((unsigned char)c))
+		return (-1);
+	return (0);
+}
+
+int	rgb_to_hex(const char *rgb_str)
+{
+	const char	*p;
+	int			r;
+	int			g;
+	int			b;
 
 	if (!rgb_str)
-		return -1;
+		return (-1);
 	p = rgb_str;
 	r = parse_component(&p);
-	if (r < 0 || *p != ',')
-		return -1;
+	if (validate_component(r, ',', *p) == -1)
+		return (-1);
 	p++;
 	g = parse_component(&p);
-	if (g < 0 || *p != ',')
-		return -1;
+	if (validate_component(g, ',', *p) == -1)
+		return (-1);
 	p++;
 	b = parse_component(&p);
-	if (b < 0 || (*p != '\0' && !isspace((unsigned char)*p)))
-		return -1;
-	return (r << 16) | (g << 8) | b;
+	if (validate_end(b, *p) == -1)
+		return (-1);
+	return ((r << 16) | (g << 8) | b);
 }
 
-void  free_2d_array(char **arr)
+void	free_2d_array(char **arr)
 {
-	size_t i;
+	size_t	i;
 
 	if (!arr)
-		return;
+		return ;
 	i = 0;
 	while (arr[i])
 	{

@@ -7,14 +7,20 @@ LIBFT=$(LIBFT_DIR)/libft.a
 
 SRCS= src/main.c \
 	src/parse_map.c \
+	src/parse_map_utils.c \
 	src/game/input_handler.c \
 	src/game/player_mov.c \
 	src/game/player_rot.c \
 	src/game/player_init.c \
+	src/game/check_collision.c \
+	src/game/player_mov_utils.c \
 	src/graphics/floor_n_ceiling.c \
 	src/graphics/load_textures.c \
 	src/graphics/raycasting.c \
+	src/graphics/raycasting_utils.c \
+	src/graphics/dda.c \
 	src/graphics/render_map.c \
+	src/graphics/render_map_utils.c \
 	src/utils/color.c \
 	src/utils/errors.c \
 	src/parsing/check_map.c \

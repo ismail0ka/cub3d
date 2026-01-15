@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_init.c                                      :+:      :+:    :+:   */
+/*   player_mov_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 19:25:03 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/14 20:28:14 by ikarouat         ###   ########.fr       */
+/*   Created: 2026/01/14 23:18:40 by ikarouat          #+#    #+#             */
+/*   Updated: 2026/01/14 23:28:35 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_player(t_player *player, const t_map *map)
+void	update_position_y(t_player *player, t_map *map, double next_y)
 {
-	double	angle;
+	if (is_position_valid(map, player->pos.x, next_y))
+		player->pos.y = next_y;
+}
 
-	if (!player || !map)
-		return ;
-	angle = map->player_angle;
-	player->pos.x = map->player_x;
-	player->pos.y = map->player_y;
-	player->direction.x = cos(angle);
-	player->direction.y = sin(angle);
-	player->plane.x = -player->direction.y * 0.66;
-	player->plane.y = player->direction.x * 0.66;
-	player->move_speed = 0.1;
-	player->rot_speed = 0.05;
+void	update_position_x(t_player *player, t_map *map, double next_x)
+{
+	if (is_position_valid(map, next_x, player->pos.y))
+		player->pos.x = next_x;
 }

@@ -6,28 +6,30 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:25:33 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/14 19:25:34 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/14 23:37:19 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "cub3d.h"
 
-static void load_texture(t_mlx *mlx, t_texture *texture, char *path)
+static void	load_texture(t_mlx *mlx, t_texture *texture, char *path)
 {
 	if (!path || !mlx || !texture)
-		return;
-	texture->img = mlx_xpm_file_to_image(mlx->mlx, path, &texture->width, &texture->height);
+		return ;
+	texture->img = mlx_xpm_file_to_image(mlx->mlx, path,
+			&texture->width, &texture->height);
 	if (texture->img)
-		texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->line_len, &texture->endian);
+		texture->addr = mlx_get_data_addr(texture->img, &texture->bpp,
+				&texture->line_len, &texture->endian);
 }
 
-void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
+void	init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
 {
-	int i;
+	int	i;
 
 	if (!renderer || !mlx || !map)
-		return;
+		return ;
 	i = 0;
 	while (i < NUM_TEXTURES)
 	{
@@ -46,5 +48,6 @@ void  init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map)
 	}
 	renderer->img = mlx_new_image(mlx->mlx, mlx->width, mlx->height);
 	if (renderer->img)
-		renderer->addr = mlx_get_data_addr(renderer->img, &renderer->bpp, &renderer->line_len, &renderer->endian);
+		renderer->addr = mlx_get_data_addr(renderer->img, &renderer->bpp,
+				&renderer->line_len, &renderer->endian);
 }

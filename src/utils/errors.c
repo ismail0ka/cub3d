@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:26:01 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/14 19:26:02 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/14 23:31:17 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,59 @@
 #include <stdlib.h>
 #include "cub3d.h"
 
-void  cleanup_engine(t_engine *engine)
+static void	cleanup_textures(t_engine *engine)
 {
-	int i;
+	int	i;
 
+	if (!engine->renderer || !engine->mlx)
+		return ;
+	i = 0;
+	while (i < NUM_TEXTURES)
+	{
+		if (engine->renderer->textures[i].img)
+			mlx_destroy_image(engine->mlx->mlx,
+				engine->renderer->textures[i].img);
+		i++;
+	}
+}
+
+static void	cleanup_mlx(t_engine *engine)
+{
+	if (! engine->mlx)
+		return ;
+	if (engine->mlx->win)
+		mlx_destroy_window(engine->mlx->mlx, engine->mlx->win);
+	if (engine->mlx->mlx)
+		mlx_destroy_display(engine->mlx->mlx);
+	free(engine->mlx);
+}
+
+static void	cleanup_map(t_engine *engine)
+{
+	if (!engine->map)
+		return ;
+	free(engine->map->no_texture);
+	free(engine->map->so_texture);
+	free(engine->map->we_texture);
+	free(engine->map->ea_texture);
+	free_2d_array(engine->map->layout);
+	free(engine->map);
+}
+
+void	cleanup_engine(t_engine *engine)
+{
 	if (!engine)
-		return;
-	if (engine->renderer && engine->mlx)
-	{
-		i = 0;
-		while (i < NUM_TEXTURES)
-		{
-			if (engine->renderer->textures[i].img)
-				mlx_destroy_image(engine->mlx->mlx, engine->renderer->textures[i].img);
-			i++;
-		}
-	}
-	if (engine->mlx)
-	{
-		if (engine->mlx->win)
-			mlx_destroy_window(engine->mlx->mlx, engine->mlx->win);
-		if (engine->mlx->mlx)
-			mlx_destroy_display(engine->mlx->mlx);
-		free(engine->mlx);
-	}
-	if (engine->map)
-	{
-		free(engine->map->no_texture);
-		free(engine->map->so_texture);
-		free(engine->map->we_texture);
-		free(engine->map->ea_texture);
-		free_2d_array(engine->map->layout);
-		free(engine->map);
-	}
+		return ;
+	cleanup_textures(engine);
+	cleanup_mlx(engine);
+	cleanup_map(engine);
 	if (engine->renderer)
 		free(engine->renderer);
 	if (engine->player)
 		free(engine->player);
 }
 
-void  exit_with_error(const char *error_message, t_engine *engine)
+void	exit_with_error(const char *error_message, t_engine *engine)
 {
 	if (error_message)
 		printf("Error: %s\n", error_message);
