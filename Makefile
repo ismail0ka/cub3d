@@ -24,6 +24,7 @@ SRCS= src/main.c \
 	src/graphics/render_map_utils.c \
 	src/utils/color.c \
 	src/utils/errors.c \
+	src/utils/free_2d_array.c \
 	src/parsing/check_map.c \
 	src/parsing/check_is_open_map.c \
 	src/parsing/check_map_elements.c \
