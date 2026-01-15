@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   separate_elements_colors.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/11 20:43:36 by yoessedr          #+#    #+#             */
+/*   Updated: 2026/01/11 20:43:36 by yoessedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static char	*skip_whitespace(char *str)
@@ -24,6 +36,22 @@ static char	*trim_whitespace(char *str)
 	return (str);
 }
 
+static int	count_commas(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 static int	is_color_digit(char *color)
 {
 	int		i;
@@ -47,21 +75,14 @@ static int	split_color(char *type, char *colors)
 	t_params	*param;
 
 	param = params_holder();
+	if (count_commas(colors) != 2)
+		return (ft_putstr_fd("!!Error in colors!!\n", 2), -1);
 	tmp = ft_split(colors, ',');
 	if (!tmp)
 		return (perror("cub3D"), -1);
 	if (!tmp[0] || !tmp[1] || !tmp[2] || tmp[3])
 		return (ft_putstr_fd("!!Error in colors!!\n", 2), free_array(&tmp), -1);
-#ifdef DEBUG_COLOR
-	ft_putstr_fd("DEBUG tokens -> ", 2);
-	if (tmp[0]) ft_putstr_fd(tmp[0], 2);
-	ft_putstr_fd(" | ", 2);
-	if (tmp[1]) ft_putstr_fd(tmp[1], 2);
-	ft_putstr_fd(" | ", 2);
-	if (tmp[2]) ft_putstr_fd(tmp[2], 2);
-	ft_putstr_fd("\n", 2);
-#endif
-	/* Validate each color component is a digit after trimming */
+
 	if (is_color_digit(tmp[0]) == -1 || is_color_digit(tmp[1]) == -1
 		|| is_color_digit(tmp[2]) == -1)
 		return (ft_putstr_fd("!!Error in colors!!\n", 2), free_array(&tmp), -1);
@@ -100,7 +121,6 @@ int	add_color(t_lines *file_content)
 			color_type = ft_substr(file_content->line, 0, 1);
 			if (!color_type)
 				return (perror("cub3D"), -1);
-			/* Find first whitespace (space or tab) then skip any whitespace to get colors */
 			ptr = file_content->line;
 			while (*ptr && *ptr != ' ' && *ptr != '\t')
 				ptr++;

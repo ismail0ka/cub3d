@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/11 20:43:13 by yoessedr          #+#    #+#             */
+/*   Updated: 2026/01/11 20:43:13 by yoessedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static char	**copy_and_replace(void);
@@ -50,8 +62,10 @@ static int	check_is_map_open(char **map)
 			&& (i == 0 || j == 0
 			|| !map[i + 1] || !map[i][j + 1]
 			|| map[i][j + 1] == ' ' || map[i][j - 1] == ' '
-			|| map[i + 1][j] == ' ' || map[i - 1][j] == ' '))
-				return (-1);
+			|| map[i][j + 1] == '?' || map[i][j - 1] == '?'
+			|| map[i + 1][j] == ' ' || map[i - 1][j] == ' '
+			|| map[i + 1][j] == '?' || map[i - 1][j] == '?'))
+				return (ft_putstr_fd("Error: Map is not surrounded by walls\n", 2), -1);
 		}
 	}
 	return (0);
@@ -61,13 +75,16 @@ int	is_map_surrounded(void)
 {
 	char		**map;
 	t_params	*param;
+	int			result;
 
 	param = params_holder();
 	map = copy_and_replace();
-	if (check_is_map_open(map) == -1)
-		return (free_array(&map), -1);
-	free_array(&param->map);
-	param->map = map;
+	if (!map)
+		return (-1);
+	result = check_is_map_open(map);
+	free_array(&map);
+	if (result == -1)
+		return (-1);
 	return (0);
 }
 
@@ -75,15 +92,30 @@ static char	*replace_space(char *str, int longest)
 {
 	char	*ret;
 	int		index;
+	int		last_char;
+	int		i;
 
-	index = -1;
 	ret = malloc(sizeof(char) * longest + 1);
 	if (!ret)
 		return (NULL);
-	while (str[++index] != '\n' && str[index])
-		ret[index] = str[index];
-	while (index < longest)
-		ret[index++] = ' ';
+	last_char = -1;
+	i = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		if (str[i] != ' ')
+			last_char = i;
+		i++;
+	}
+	index = -1;
+	while (++index < longest)
+	{
+		if (index < i)
+			ret[index] = str[index];
+		else if (index <= last_char)
+			ret[index] = '1';
+		else
+			ret[index] = '?';
+	}
 	ret[index] = '\0';
 	return (ret);
 }

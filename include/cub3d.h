@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:24:23 by ikarouat          #+#    #+#             */
 /*   Updated: 2026/01/15 04:45:43 by ikarouat         ###   ########.fr       */
