@@ -82,14 +82,15 @@ static int	split_color(char *type, char *colors)
 		return (perror("cub3D"), -1);
 	if (!tmp[0] || !tmp[1] || !tmp[2] || tmp[3])
 		return (ft_putstr_fd("!!Error in colors!!\n", 2), free_array(&tmp), -1);
-
 	if (is_color_digit(tmp[0]) == -1 || is_color_digit(tmp[1]) == -1
 		|| is_color_digit(tmp[2]) == -1)
-		return (ft_putstr_fd("!!Error in colors!!\n", 2), free_array(&tmp), -1);
+		return (ft_putstr_fd("!!Error in colors!!\n", 2),
+			free_array(&tmp), -1);
 	if (type[0] == 'F')
 	{
 		if (param->floor_color[0] != -1)
-			return (ft_putstr_fd("Error: Duplicate F color\n", 2), free_array(&tmp), -1);
+			return (ft_putstr_fd("Error: Duplicate F color\n", 2),
+				free_array(&tmp), -1);
 		param->floor_color[0] = ft_atoi(trim_whitespace(tmp[0]));
 		param->floor_color[1] = ft_atoi(trim_whitespace(tmp[1]));
 		param->floor_color[2] = ft_atoi(trim_whitespace(tmp[2]));
@@ -97,7 +98,8 @@ static int	split_color(char *type, char *colors)
 	else if (type[0] == 'C')
 	{
 		if (param->ceiling_color[0] != -1)
-			return (ft_putstr_fd("Error: Duplicate C color\n", 2), free_array(&tmp), -1);
+			return (ft_putstr_fd("Error: Duplicate C color\n", 2),
+				free_array(&tmp), -1);
 		param->ceiling_color[0] = ft_atoi(trim_whitespace(tmp[0]));
 		param->ceiling_color[1] = ft_atoi(trim_whitespace(tmp[1]));
 		param->ceiling_color[2] = ft_atoi(trim_whitespace(tmp[2]));
@@ -105,12 +107,34 @@ static int	split_color(char *type, char *colors)
 	return (free_array(&tmp), 0);
 }
 
-int	add_color(t_lines *file_content)
+static int	process_color_line(t_lines *file_content)
 {
 	char		*color_type;
 	char		*color_str;
 	char		*ptr;
 
+	if (file_content->line[1] != ' ' && file_content->line[1] != '\t')
+		return (ft_putstr_fd("Error: Invalid color identifier\n", 2), -1);
+	color_type = ft_substr(file_content->line, 0, 1);
+	if (!color_type)
+		return (perror("cub3D"), -1);
+	ptr = file_content->line;
+	while (*ptr && *ptr != ' ' && *ptr != '\t')
+		ptr++;
+	while (*ptr == ' ' || *ptr == '\t')
+		ptr++;
+	color_str = ft_strdup(ptr);
+	if (!color_str)
+		return (free(color_type), perror("cub3D"), -1);
+	if (split_color(color_type, color_str) == -1)
+		return (free(color_type), free(color_str), -1);
+	free(color_type);
+	free(color_str);
+	return (0);
+}
+
+int	add_color(t_lines *file_content)
+{
 	if (!file_content)
 		return (-1);
 	while (file_content && (file_content->line[0] == 'F'
@@ -118,21 +142,8 @@ int	add_color(t_lines *file_content)
 	{
 		if (file_content->line[0] == 'F' || file_content->line[0] == 'C')
 		{
-			color_type = ft_substr(file_content->line, 0, 1);
-			if (!color_type)
-				return (perror("cub3D"), -1);
-			ptr = file_content->line;
-			while (*ptr && *ptr != ' ' && *ptr != '\t')
-				ptr++;
-			while (*ptr == ' ' || *ptr == '\t')
-				ptr++;
-			color_str = ft_strdup(ptr);
-			if (!color_str)
-				return (free(color_type), perror("cub3D"), -1);
-			if (split_color(color_type, color_str) == -1)
-				return (free(color_type), free(color_str), -1);
-			free(color_type);
-			free(color_str);
+			if (process_color_line(file_content) == -1)
+				return (-1);
 		}
 		file_content = file_content->next;
 	}

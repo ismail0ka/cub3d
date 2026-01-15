@@ -32,35 +32,51 @@ static int	split_map(t_lines *file_content, size_t len)
 	return (0);
 }
 
-int	add_map(t_lines *file_content_i)
+static int	is_map_char(char c)
 {
-	size_t	len;
-	t_lines	*file_content;
+	if (c == '0' || c == '1' || c == ' ' || c == '\n'
+		|| c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (1);
+	return (0);
+}
 
-	len = 0;
-	file_content = file_content_i;
-	if (!file_content)
-		return (-1);
-	while (file_content && file_content->line && ((file_content->line[0] == '0'
-				|| file_content->line[0] == '1' || file_content->line[0] == ' '
-				|| file_content->line[0] == '\n' || file_content->line[0] == 'N'
-				|| file_content->line[0] == 'S' || file_content->line[0] == 'E'
-				|| file_content->line[0] == 'W')))
+static int	validate_trailing_lines(t_lines *file_content)
+{
+	while (file_content && file_content->line)
 	{
 		if (file_content->line[0] != '\n')
-			len++;
+			return (-1);
+		file_content = file_content->next;
+	}
+	return (0);
+}
+
+static int	count_map_lines(t_lines *file_content, size_t *len)
+{
+	while (file_content && file_content->line
+		&& is_map_char(file_content->line[0]))
+	{
+		if (file_content->line[0] != '\n')
+			(*len)++;
 		else
 		{
-			while (file_content && file_content->line)
-			{
-				if (file_content->line[0] != '\n')
-					return (-1);
-				file_content = file_content->next;
-			}
-			if (!file_content || !file_content->line)
-				break;
+			if (validate_trailing_lines(file_content) == -1)
+				return (-1);
+			break ;
 		}
 		file_content = file_content->next;
 	}
+	return (0);
+}
+
+int	add_map(t_lines *file_content_i)
+{
+	size_t	len;
+
+	len = 0;
+	if (!file_content_i)
+		return (-1);
+	if (count_map_lines(file_content_i, &len) == -1)
+		return (-1);
 	return (split_map(file_content_i, len));
 }

@@ -84,6 +84,6 @@ void	free_lines(t_lines **head)
 		free(*head);
 		(*head) = tmp;
 	}
-	free (*head);
+	free(*head);
 	*head = NULL;
 }

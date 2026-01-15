@@ -6,7 +6,7 @@
 /*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 20:43:25 by yoessedr          #+#    #+#             */
-/*   Updated: 2026/01/11 20:43:26 by yoessedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 06:11:16 by yoessedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	replace_spaces_with_walls(void)
 	param = params_holder();
 	if (!param || !param->map)
 		return (-1);
-	
 	i = 0;
 	while (param->map[i])
 	{

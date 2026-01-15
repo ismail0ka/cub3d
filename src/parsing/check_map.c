@@ -28,8 +28,10 @@ int	check_map_elements(t_params	*params)
 			if (params->map[i][j] == 'S' || params->map[i][j] == 'N'
 				|| params->map[i][j] == 'E' || params->map[i][j] == 'W')
 			{
-				if (params->player->cell_x != -1 || params->player->cell_y != -1)
-					return (ft_putstr_fd("Error: Multiple players in map\n", 2), -1);
+				if (params->player->cell_x != -1
+					|| params->player->cell_y != -1)
+					return (ft_putstr_fd("Error: Multiple players in map\n", 2)
+						, -1);
 				params->player->cell_y = i;
 				params->player->cell_x = j;
 				params->player->direction = params->map[i][j];
@@ -65,7 +67,8 @@ static int	check_is_map_open(char **map)
 			|| map[i][j + 1] == '?' || map[i][j - 1] == '?'
 			|| map[i + 1][j] == ' ' || map[i - 1][j] == ' '
 			|| map[i + 1][j] == '?' || map[i - 1][j] == '?'))
-				return (ft_putstr_fd("Error: Map is not surrounded by walls\n", 2), -1);
+				return (ft_putstr_fd("Error: Map is not surrounded by walls\n"
+						, 2), -1);
 		}
 	}
 	return (0);

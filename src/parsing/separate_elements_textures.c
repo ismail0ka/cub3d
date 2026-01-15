@@ -77,7 +77,14 @@ static int	manage_tex(char ***tmp, t_lines *file_content)
 	if (!(*tmp) || !(*tmp)[0] || !(*tmp)[1] || (*tmp)[2])
 		return (perror("cub3D"), -1);
 	if (ft_strlen((*tmp)[0]) != 2)
-		return (-1);
+		return (ft_putstr_fd("Error: Invalid texture identifier\n",
+				2), -1);
+	if (((*tmp)[0][0] != 'N' || (*tmp)[0][1] != 'O')
+		&& ((*tmp)[0][0] != 'S' || (*tmp)[0][1] != 'O')
+		&& ((*tmp)[0][0] != 'W' || (*tmp)[0][1] != 'E')
+		&& ((*tmp)[0][0] != 'E' || (*tmp)[0][1] != 'A'))
+		return (ft_putstr_fd("Error: Invalid texture identifier\n",
+				2), -1);
 	if (split_tex((*tmp)[0], (*tmp)[1]) == -1)
 		return (-1);
 	return (0);
@@ -106,6 +113,10 @@ int	add_tex(t_lines *file_content)
 		file_content = file_content->next;
 	}
 	if (params_holder()->floor_color[0] == -1)
-		return (free_array(&tmp), add_color(file_content));
-	return (free_array(&tmp), add_map(file_content));
+	{
+		free_array(&tmp);
+		return (add_color(file_content));
+	}
+	free_array(&tmp);
+	return (add_map(file_content));
 }

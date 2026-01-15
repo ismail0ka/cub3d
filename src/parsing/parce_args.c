@@ -47,5 +47,6 @@ int	parse_args(char *filename)
 		return (perror("cub3D"), free_lines(&file_content), -1);
 	if (parse_content(file_content) == -1)
 		return (free_lines(&file_content), -1);
-	return (free_lines(&file_content), 0);
+	free_lines(&file_content);
+	return (0);
 }

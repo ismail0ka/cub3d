@@ -68,5 +68,5 @@ void	free_params(t_params **params)
 	index = -1;
 	if ((*params)->map)
 		free_array(&(*params)->map);
-	free (*params);
+	free(*params);
 }
