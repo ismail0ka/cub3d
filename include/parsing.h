@@ -28,6 +28,8 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isdigit(int c);
 int			ft_atoi(const char *str);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putnbr_fd(int n, int fd);
+void		ft_putchar_fd(char c, int fd);
 char		*get_next_line(int fd);
 
 /* ************************************************************************** */
@@ -122,6 +124,9 @@ int			add_color(t_lines *file_content);
 
 /* separate_elements_map.c */
 int			add_map(t_lines *file_content_i);
+
+/* separate_elements_map_utils.c */
+int			is_map_char(char c);
 
 /* separate_elements_textures.c */
 int			add_tex(t_lines *file_content);

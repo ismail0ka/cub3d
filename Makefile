@@ -34,6 +34,7 @@ SRCS= src/main.c \
 	src/parsing/read_file.c \
 	src/parsing/separate_elements_colors.c \
 	src/parsing/separate_elements_map.c \
+	src/parsing/separate_elements_map_utils.c \
 	src/parsing/separate_elements_textures.c \
 	src/parsing/separate_elements_textures2.c \
 	src/parsing/separate_elements.c

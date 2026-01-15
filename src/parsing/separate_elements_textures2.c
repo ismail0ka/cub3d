@@ -6,7 +6,7 @@
 /*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 04:42:12 by yoessedr          #+#    #+#             */
-/*   Updated: 2026/01/15 15:41:05 by yoessedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:45:34 by yoessedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,19 @@ static int	assign_west_east(t_params *param, char *type, char *path)
 	return (0);
 }
 
+static int	is_valid_xpm(char *path)
+{
+	int	len;
+
+	len = ft_strlen(path);
+	if (len < 4)
+		return (0);
+	if (path[len - 1] != 'm' || path[len - 2] != 'p'
+		|| path[len - 3] != 'x' || path[len - 4] != '.')
+		return (0);
+	return (1);
+}
+
 int	split_tex(char *type, char *path)
 {
 	t_params	*param;
@@ -54,6 +67,8 @@ int	split_tex(char *type, char *path)
 	trimmed_path = trim_texture_path(path);
 	if (!trimmed_path || !trimmed_path[0])
 		return (ft_putstr_fd("Error: Empty texture path\n", 2), -1);
+	if (!is_valid_xpm(trimmed_path))
+		return (ft_putstr_fd("Error: Texture must be .xpm file\n", 2), -1);
 	if (access(trimmed_path, F_OK) == -1)
 		return (ft_putstr_fd("Error: Texture file does not exist\n", 2), -1);
 	if (access(trimmed_path, R_OK) == -1)

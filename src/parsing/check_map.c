@@ -14,6 +14,24 @@
 
 static char	**copy_and_replace(void);
 
+static int	check_space_adjacent(char **map, int i, int j)
+{
+	if ((j > 0 && (map[i][j - 1] == '0' || map[i][j - 1] == 'S'
+			|| map[i][j - 1] == 'E' || map[i][j - 1] == 'N'
+			|| map[i][j - 1] == 'W'))
+		|| (map[i][j + 1] && (map[i][j + 1] == '0'
+			|| map[i][j + 1] == 'S' || map[i][j + 1] == 'E'
+			|| map[i][j + 1] == 'N' || map[i][j + 1] == 'W'))
+		|| (i > 0 && (map[i - 1][j] == '0' || map[i - 1][j] == 'S'
+			|| map[i - 1][j] == 'E' || map[i - 1][j] == 'N'
+			|| map[i - 1][j] == 'W'))
+		|| (map[i + 1] && (map[i + 1][j] == '0'
+			|| map[i + 1][j] == 'S' || map[i + 1][j] == 'E'
+			|| map[i + 1][j] == 'N' || map[i + 1][j] == 'W')))
+		return (1);
+	return (0);
+}
+
 static int	check_is_map_open(char **map)
 {
 	int	i;
@@ -28,16 +46,19 @@ static int	check_is_map_open(char **map)
 			if ((map[i][j] == '0' || map[i][j] == 'S'
 			|| map[i][j] == 'E' || map[i][j] == 'N'
 			|| map[i][j] == 'W')
-			&& (i == 0 || j == 0
-			|| !map[i + 1] || !map[i][j + 1]
+			&& (!map[i + 1] || !map[i][j + 1]
 			|| map[i][j + 1] == '?' || map[i][j - 1] == '?'
-			|| map[i + 1][j] == '?' || map[i - 1][j] == '?'))
+			|| map[i + 1][j] == '?' || (i > 0 && map[i - 1][j] == '?')))
+				return (ft_putstr_fd("Error: Map is not surrounded by walls\n"
+						, 2), -1);
+			if (map[i][j] == ' ' && check_space_adjacent(map, i, j))
 				return (ft_putstr_fd("Error: Map is not surrounded by walls\n"
 						, 2), -1);
 		}
 	}
 	return (0);
 }
+
 int	is_map_surrounded(void)
 {
 	char		**map;
