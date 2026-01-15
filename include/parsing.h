@@ -28,6 +28,8 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isdigit(int c);
 int			ft_atoi(const char *str);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putnbr_fd(int n, int fd);
+void		ft_putchar_fd(char c, int fd);
 char		*get_next_line(int fd);
 
 /* ************************************************************************** */
@@ -86,6 +88,8 @@ typedef struct s_params
 /* check_map.c */
 int			check_map_elements(t_params *params);
 int			is_map_surrounded(void);
+int			find_last_char(char *str);
+void		fill_padded_string(char *ret, char *str, int longest, int last_char);
 
 /* map_cleanup.c */
 int			replace_spaces_with_walls(void);
@@ -121,8 +125,15 @@ int			add_color(t_lines *file_content);
 /* separate_elements_map.c */
 int			add_map(t_lines *file_content_i);
 
+/* separate_elements_map_utils.c */
+int			is_map_char(char c);
+
 /* separate_elements_textures.c */
 int			add_tex(t_lines *file_content);
+char		*trim_texture_path(char *path);
+
+/* separate_elements_textures2.c */
+int			split_tex(char *type, char *path);
 
 /* sparate_elements.c */
 int			separate_elements(t_lines *file_content);
