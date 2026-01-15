@@ -1,7 +1,7 @@
 NAME=cub3d
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -Iinclude  
-# -fsanitize=address -g3
+CFLAGS=-Wall -Wextra -Werror -Iinclude -g3
+# -fsanitize=address 
 MLX_LIB=-lmlx -lXext -lX11 -lm
 LIBFT_DIR=lib/libft
 LIBFT=$(LIBFT_DIR)/libft.a
@@ -25,6 +25,8 @@ SRCS= src/main.c \
 	src/utils/color.c \
 	src/utils/errors.c \
 	src/parsing/check_map.c \
+	src/parsing/check_is_open_map.c \
+	src/parsing/check_map_elements.c \
 	src/parsing/helper_utils.c \
 	src/parsing/line_utils.c \
 	src/parsing/map_cleanup.c \
@@ -32,8 +34,10 @@ SRCS= src/main.c \
 	src/parsing/parce_args.c \
 	src/parsing/read_file.c \
 	src/parsing/separate_elements_colors.c \
+	src/parsing/separate_elements_colors_utils.c \
 	src/parsing/separate_elements_map.c \
 	src/parsing/separate_elements_textures.c \
+	src/parsing/separate_elements_textures_utils.c \
 	src/parsing/separate_elements.c
 
 OBJS= $(SRCS:.c=.o)

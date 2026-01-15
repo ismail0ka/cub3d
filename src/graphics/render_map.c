@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:25:47 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 04:00:57 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:23:29 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,19 @@ static void	calc_draw_bounds(int *start, int *end, int line_h, int screen_h)
 
 static void	render_column(t_engine *e, int x)
 {
-	t_raycast_result	ray;
+	t_wall_draw			wd;
 	int					line_height;
-	int					draw_start;
-	int					draw_end;
 	double				dist;
 
-	ray = cast_ray(e, x);
-	dist = ray.distance;
+	wd.ray = cast_ray(e, x);
+	dist = wd.ray.distance;
 	if (dist <= 0.0001)
 		dist = 0.0001;
 	e->renderer->z_buffer[x] = dist;
 	line_height = (int)(e->mlx->height / dist);
-	calc_draw_bounds(&draw_start, &draw_end, line_height, e->mlx->height);
-	draw_textured_wall(e, x, draw_start, draw_end, ray);
+	wd.x = x;
+	calc_draw_bounds(&wd.start, &wd.end, line_height, e->mlx->height);
+	draw_textured_wall(e, &wd);
 }
 
 void	render_frame(t_engine *e)

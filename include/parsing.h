@@ -85,7 +85,9 @@ typedef struct s_params
 
 /* check_map.c */
 int			check_map_elements(t_params *params);
+int			check_is_map_open(char **map);
 int			is_map_surrounded(void);
+int			check_map_elements(t_params *p);
 
 /* map_cleanup.c */
 int			replace_spaces_with_walls(void);
@@ -117,12 +119,14 @@ t_lines		*extract_file_content(int fd);
 
 /* separate_elements_colors.c */
 int			add_color(t_lines *file_content);
+int			split_color(char *type, char *colors);
 
 /* separate_elements_map.c */
 int			add_map(t_lines *file_content_i);
 
 /* separate_elements_textures.c */
 int			add_tex(t_lines *file_content);
+int			manage_tex(char ***tmp, t_lines *file_content);
 
 /* sparate_elements.c */
 int			separate_elements(t_lines *file_content);

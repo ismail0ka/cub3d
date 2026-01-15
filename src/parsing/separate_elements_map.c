@@ -34,7 +34,7 @@ static int	split_map(t_lines *file_content, size_t len)
 
 static int	is_map_char(char c)
 {
-	if (c == '0' || c == '1' || c == ' ' || c == '\n'
+	if (c == '0' || c == '1' || c == '\n'
 		|| c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
 	return (0);

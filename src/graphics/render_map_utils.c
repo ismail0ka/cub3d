@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 03:50:54 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 04:32:19 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:13:09 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,17 @@ static void	render_textured_column(t_engine *e, t_texture *tex,
 	}
 }
 
-void	draw_textured_wall(t_engine *e, int x, int start,
-			int end, t_raycast_result ray)
+void	draw_textured_wall(t_engine *e, t_wall_draw *wd)
 {
 	t_texture	*tex;
-	t_wall_draw	wd;
 
-	if (ray.tex_id < 0 || ray.tex_id >= NUM_TEXTURES)
+	if (wd->ray.tex_id < 0 || wd->ray.tex_id >= NUM_TEXTURES)
 		return ;
-	tex = &e->renderer->textures[ray.tex_id];
-	wd.x = x;
-	wd.start = start;
-	wd.end = end;
-	wd.ray = ray;
+	tex = &e->renderer->textures[wd->ray.tex_id];
 	if (! tex->img || !tex->addr)
 	{
-		draw_fallback_wall(e, &wd);
+		draw_fallback_wall(e, wd);
 		return ;
 	}
-	render_textured_column(e, tex, &wd);
+	render_textured_column(e, tex, wd);
 }

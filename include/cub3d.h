@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 19:24:23 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 06:11:16 by yoessedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:23:08 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,7 @@ void				init_window(t_mlx *mlx, int width, int height, char *title);
 void				init_player(t_player *player, const t_map *map);
 void				init_renderer(t_renderer *renderer, t_mlx *mlx, t_map *map);
 t_raycast_result	cast_ray(t_engine *engine, int screen_x);
-void				draw_textured_wall(t_engine *e, int x, int start,
-						int end, t_raycast_result ray);
+void				draw_textured_wall(t_engine *e, t_wall_draw *wd);
 void				render_frame(t_engine *engine);
 void				draw_floor_n_ceiling(t_engine *engine);
 int					is_position_valid(t_map *map, double x, double y);
