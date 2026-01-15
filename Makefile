@@ -1,6 +1,7 @@
 NAME=cub3d
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -Iinclude -g3
+CFLAGS=-Wall -Wextra -Werror -Iinclude  
+# -fsanitize=address -g3
 MLX_LIB=-lmlx -lXext -lX11 -lm
 LIBFT_DIR=lib/libft
 LIBFT=$(LIBFT_DIR)/libft.a
@@ -33,9 +34,9 @@ SRCS= src/main.c \
 	src/parsing/separate_elements_colors.c \
 	src/parsing/separate_elements_map.c \
 	src/parsing/separate_elements_textures.c \
-	src/parsing/sparate_elements.c
+	src/parsing/separate_elements.c
 
-OBJS := $(SRCS:.c=.o)
+OBJS= $(SRCS:.c=.o)
 
 all: $(NAME)
 

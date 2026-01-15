@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parce_args.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/11 20:43:30 by yoessedr          #+#    #+#             */
+/*   Updated: 2026/01/11 20:43:30 by yoessedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static int	check_filename(char *filename)
@@ -35,5 +47,6 @@ int	parse_args(char *filename)
 		return (perror("cub3D"), free_lines(&file_content), -1);
 	if (parse_content(file_content) == -1)
 		return (free_lines(&file_content), -1);
-	return (free_lines(&file_content), 0);
+	free_lines(&file_content);
+	return (0);
 }

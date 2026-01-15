@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoessedr <yoessedr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/11 20:43:22 by yoessedr          #+#    #+#             */
+/*   Updated: 2026/01/11 20:43:22 by yoessedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 t_lines	*new_line(char *str)
@@ -72,6 +84,6 @@ void	free_lines(t_lines **head)
 		free(*head);
 		(*head) = tmp;
 	}
-	free (*head);
+	free(*head);
 	*head = NULL;
 }
