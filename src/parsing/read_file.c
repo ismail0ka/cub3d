@@ -67,14 +67,14 @@ int	parse_content(t_lines *file_content)
 	if (separate_elements(tmp) == -1)
 		return (-1);
 	if (check_map_elements(params_holder()) == -1)
-		return (ft_putstr_fd("Map error!!\n", 2), -1);
+		return (ft_putstr_fd("Map elements error!!\n", 2), -1);
+	if (is_map_surrounded() == -1)
+		return (ft_putstr_fd("Map surround error!!\n", 2), -1);
 	if (replace_spaces_with_walls() == -1)
 		return (ft_putstr_fd("Map cleanup error!!\n", 2), -1);
-	if (is_map_surrounded() == -1)
-		return (ft_putstr_fd("Map error!!\n", 2), -1);
 	if (params_holder()->player->cell_x == -1
 		|| params_holder()->player->cell_y == -1)
-		return (ft_putstr_fd("Map error!!\n", 2), -1);
+		return (ft_putstr_fd("Map player error!!\n", 2), -1);
 	return (0);
 }
 

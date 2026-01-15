@@ -51,12 +51,26 @@ static int	validate_trailing_lines(t_lines *file_content)
 	return (0);
 }
 
+int	chcker(char *str)
+{
+	int i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	while (str[i] &&  str[i] != '\n')
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+		return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	count_map_lines(t_lines *file_content, size_t *len)
 {
 	while (file_content && file_content->line
 		&& is_map_char(file_content->line[0]))
 	{
-		if (file_content->line[0] != '\n')
+		if (!chcker(file_content->line))
 			(*len)++;
 		else
 		{

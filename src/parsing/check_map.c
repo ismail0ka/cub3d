@@ -30,32 +30,18 @@ static int	find_last_non_space(char *str)
 	return (last_char);
 }
 
-static int	find_str_len(char *str)
+static void	fill_padded_string(char *ret, char *str, int longest, int last_char)
 {
+	int	index;
 	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	return (i);
-}
-
-static char	*replace_space(char *str, int longest)
-{
-	char	*ret;
-	int		str_len;
-	int		last_char;
-	int		index;
-
-	ret = malloc(sizeof(char) * (longest + 1));
-	if (!ret)
-		return (NULL);
-	last_char = find_last_non_space(str);
-	str_len = find_str_len(str);
 	index = -1;
 	while (++index < longest)
 	{
-		if (index < str_len)
+		if (index < i)
 			ret[index] = str[index];
 		else if (index <= last_char)
 			ret[index] = '1';
@@ -63,6 +49,18 @@ static char	*replace_space(char *str, int longest)
 			ret[index] = '?';
 	}
 	ret[index] = '\0';
+}
+
+static char	*replace_space(char *str, int longest)
+{
+	char	*ret;
+	int		last_char;
+
+	ret = malloc(sizeof(char) * longest + 1);
+	if (!ret)
+		return (NULL);
+	last_char = find_last_non_space(str);
+	fill_padded_string(ret, str, longest, last_char);
 	return (ret);
 }
 
@@ -72,14 +70,18 @@ static char	**copy_and_replace(void)
 	int			index;
 	int			longest;
 	char		**ret;
+	int			len;
 
 	index = -1;
 	longest = 0;
 	param = params_holder();
 	while (param->map[++index])
 	{
-		if ((size_t)longest < ft_strlen(param->map[index]))
-			longest = ft_strlen(param->map[index]);
+		len = ft_strlen(param->map[index]);
+		if (param->map[index][len - 1] == '\n')
+			len--;
+		if (longest < len)
+			longest = len;
 	}
 	ret = malloc((index + 1) * sizeof(char *));
 	if (!ret)
