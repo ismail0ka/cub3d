@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 04:17:42 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 04:19:42 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:18:54 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	check_hit(t_engine *e, t_ray_data *rd)
 {
 	if (rd->map_y < 0 || rd->map_y >= e->map->height)
 		return (0);
-	if (rd->map_x < 0 || rd->map_x >= e->map->width)
+	if (rd->map_x < 0)
+		return (0);
+	if ((size_t)rd->map_x >= ft_strlen(e->map->layout[rd->map_y]))
 		return (0);
 	if (e->map->layout[rd->map_y][rd->map_x] == '1')
 		return (1);

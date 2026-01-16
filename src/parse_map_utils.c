@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 20:15:14 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/14 23:31:02 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:22:15 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	**dup_map_lines(char **src, int *out_h, int *out_w)
 {
 	int		h;
 	int		w;
+	int		i;
+	size_t	line_len;
 	char	**dst;
 
 	if (!src)
@@ -74,8 +76,13 @@ char	**dup_map_lines(char **src, int *out_h, int *out_w)
 	while (src[h])
 		h++;
 	w = 0;
-	if (src[0])
-		w = (int)ft_strlen(src[0]);
+	i = -1;
+	while (++i < h)
+	{
+		line_len = ft_strlen(src[i]);
+		if ((int)line_len > w)
+			w = (int)line_len;
+	}
 	dst = alloc_map_lines(src, h, w);
 	if (out_h)
 		*out_h = h;

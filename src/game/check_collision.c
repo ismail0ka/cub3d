@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 23:23:08 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 19:48:03 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:22:34 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	check_x_collision(char **layout, int fx, int fy, double frac_x)
 	}
 	if (frac_x > 1.0 - COLLISION_PAD)
 	{
-		if (layout[fy][fx + 1] == '1')
+		if ((size_t)(fx + 1) < ft_strlen(layout[fy])
+			&& layout[fy][fx + 1] == '1')
 			return (0);
 	}
 	return (1);
