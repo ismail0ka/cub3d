@@ -127,6 +127,7 @@ int			add_map(t_lines *file_content_i);
 /* separate_elements_textures.c */
 int			add_tex(t_lines *file_content);
 int			manage_tex(char ***tmp, t_lines *file_content);
+int			assign_texture(t_params *param, char *type, char *path);
 
 /* sparate_elements.c */
 int			separate_elements(t_lines *file_content);

@@ -79,15 +79,15 @@ int	parse_map(const char *file_path, t_map *map)
 	if (!init_parsing(&p, &player, &ray))
 		return (0);
 	if (parse_args((char *)file_path) == -1)
-		return (0);
+		return (free_params(&p), 0);
 	if (!assign_textures(map, p))
-		return (0);
+		return (free_params(&p), 0);
 	assign_colors(map, p);
 	map->layout = dup_map_lines(p->map, &map->height, &map->width);
 	if (!map->layout)
-		return (0);
+		return (free_params(&p), 0);
 	if (!assign_player(map, p))
-		return (0);
+		return (free_params(&p), 0);
 	map->is_valid = 1;
 	free_params(&p);
 	return (1);

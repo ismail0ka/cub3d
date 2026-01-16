@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:26:33 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 23:02:47 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:02:03 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	check_space_adjacent(char **map, int i, int j)
 		return (1);
 	return (0);
 }
-
 
 int	check_is_map_open(char **map)
 {

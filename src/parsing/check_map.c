@@ -70,18 +70,14 @@ static char	**copy_and_replace(void)
 	int			index;
 	int			longest;
 	char		**ret;
-	int			len;
 
 	index = -1;
 	longest = 0;
 	param = params_holder();
 	while (param->map[++index])
 	{
-		len = ft_strlen(param->map[index]);
-		if (param->map[index][len - 1] == '\n')
-			len--;
-		if (longest < len)
-			longest = len;
+		if ((size_t)longest < ft_strlen(param->map[index]))
+			longest = ft_strlen(param->map[index]);
 	}
 	ret = malloc((index + 1) * sizeof(char *));
 	if (!ret)

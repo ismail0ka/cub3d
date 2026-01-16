@@ -6,7 +6,7 @@
 /*   By: ikarouat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:39:50 by ikarouat          #+#    #+#             */
-/*   Updated: 2026/01/15 22:42:21 by ikarouat         ###   ########.fr       */
+/*   Updated: 2026/01/16 01:04:31 by ikarouat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,35 +62,6 @@ static int	validate_texture_path(char *path)
 	{
 		ft_putstr_fd("Error:  Texture file is not readable\n", 2);
 		return (-1);
-	}
-	return (0);
-}
-
-static int	assign_texture(t_params *param, char *type, char *path)
-{
-	if (type[0] == 'N' && type[1] == 'O')
-	{
-		if (param->textures[NORTH_TEX])
-			return (ft_putstr_fd("Error: Duplicate NO texture\n", 2), -1);
-		param->textures[NORTH_TEX] = ft_strdup(path);
-	}
-	else if (type[0] == 'S' && type[1] == 'O')
-	{
-		if (param->textures[SOUTH_TEX])
-			return (ft_putstr_fd("Error:  Duplicate SO texture\n", 2), -1);
-		param->textures[SOUTH_TEX] = ft_strdup(path);
-	}
-	else if (type[0] == 'W' && type[1] == 'E')
-	{
-		if (param->textures[WEST_TEX])
-			return (ft_putstr_fd("Error: Duplicate WE texture\n", 2), -1);
-		param->textures[WEST_TEX] = ft_strdup(path);
-	}
-	else if (type[0] == 'E' && type[1] == 'A')
-	{
-		if (param->textures[EAST_TEX])
-			return (ft_putstr_fd("Error:  Duplicate EA texture\n", 2), -1);
-		param->textures[EAST_TEX] = ft_strdup(path);
 	}
 	return (0);
 }

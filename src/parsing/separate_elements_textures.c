@@ -44,3 +44,32 @@ int	add_tex(t_lines *file_content)
 	free_array(&tmp);
 	return (add_map(file_content));
 }
+
+int	assign_texture(t_params *param, char *type, char *path)
+{
+	if (type[0] == 'N' && type[1] == 'O')
+	{
+		if (param->textures[NORTH_TEX])
+			return (ft_putstr_fd("Error: Duplicate NO texture\n", 2), -1);
+		param->textures[NORTH_TEX] = ft_strdup(path);
+	}
+	else if (type[0] == 'S' && type[1] == 'O')
+	{
+		if (param->textures[SOUTH_TEX])
+			return (ft_putstr_fd("Error:  Duplicate SO texture\n", 2), -1);
+		param->textures[SOUTH_TEX] = ft_strdup(path);
+	}
+	else if (type[0] == 'W' && type[1] == 'E')
+	{
+		if (param->textures[WEST_TEX])
+			return (ft_putstr_fd("Error: Duplicate WE texture\n", 2), -1);
+		param->textures[WEST_TEX] = ft_strdup(path);
+	}
+	else if (type[0] == 'E' && type[1] == 'A')
+	{
+		if (param->textures[EAST_TEX])
+			return (ft_putstr_fd("Error:  Duplicate EA texture\n", 2), -1);
+		param->textures[EAST_TEX] = ft_strdup(path);
+	}
+	return (0);
+}
